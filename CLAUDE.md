@@ -359,6 +359,10 @@ The Device preset dropdown is a custom two-level cascade (`#presetCascade` trigg
 
 **Do not use `mouseenter`/`mouseleave` for the submenus:** some Chromium-based browsers (Arc) fail to synthesize hover boundary events over fixed-position overlays, only delivering the deferred enter event on click. Hover detection is therefore a delegated `pointermove` listener on the menu, clicking a manufacturer always opens (never toggles) its submenu, and the hide timer resets rather than stacks. Submenus flip to the left / clamp vertically when they would overflow the viewport (Arc's sidebar narrows it).
 
+### Crop position widget
+
+Dragging the crop box (`#cropWidget`, cover/none resize modes when the aspect ratios differ) moves the box and updates the original preview live (once per animation frame, from a canvas of the source drawn once at drag start); the image is re-dithered on mouse release, and only if it moved. Re-dithering on every mousemove made dragging stutter.
+
 ### Zoom / pan
 
 Clicking either preview canvas zooms to 1:1 pixels, centered on the click point. Dragging pans both canvases in sync. Clicking again returns to fit view. Changing any setting exits zoom mode. Implemented via `position: absolute` canvas inside an `overflow: hidden` `.canvas-viewport` div; both canvases receive the same `transform: translate()`.

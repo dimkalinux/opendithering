@@ -688,8 +688,9 @@ async function processActive() {
 function resizeForPreview(
   src: ImageData, dw: number, dh: number, mode: ResizeMode,
   cropOffsetX: number, cropOffsetY: number,
+  srcCanvas?: HTMLCanvasElement, // src already drawn on a canvas, to skip redrawing it
 ): ImageData {
-  const bmp = imageDataToBitmap(src)
+  const bmp = srcCanvas ?? imageDataToBitmap(src)
   // Use a synchronous canvas draw
   const c = document.createElement('canvas')
   c.width = dw; c.height = dh
@@ -773,7 +774,10 @@ let cropDragStart: {
   maxDx: number; maxDy: number // source-pixel range of travel for each axis
   scale: number
   imgId: string
+  moved: boolean
+  srcCanvas: HTMLCanvasElement // the source drawn once, for the live original preview
 } | null = null
+let cropPreviewFrame = 0
 
 cropWidgetViewport.addEventListener('mousedown', e => {
   const img = images.find(i => i.id === activeId)
@@ -788,6 +792,8 @@ cropWidgetViewport.addEventListener('mousedown', e => {
     maxDx: srcW - win.w, maxDy: srcH - win.h,
     scale: cropWidgetCanvas.width / srcW,
     imgId: img.id,
+    moved: false,
+    srcCanvas: imageDataToBitmap(img.original),
   }
 })
 
@@ -803,12 +809,31 @@ document.addEventListener('mousemove', e => {
   img.cropOffsetY = cropDragStart.maxDy > 0
     ? Math.min(1, Math.max(0, cropDragStart.startOffsetY + dy / cropDragStart.maxDy))
     : 0.5
+  cropDragStart.moved = true
   updateCropWidget()
-  img.dithered = null
-  scheduleProcess()
+  // The original preview follows the crop live (once per frame); re-dithering waits for the release
+  if (!cropPreviewFrame) cropPreviewFrame = requestAnimationFrame(updateCropPreview)
 })
 
-document.addEventListener('mouseup', () => { cropDragStart = null })
+function updateCropPreview() {
+  cropPreviewFrame = 0
+  const drag = cropDragStart
+  if (!drag || drag.imgId !== activeId) return
+  const img = images.find(i => i.id === drag.imgId)
+  if (!img) return
+  putImageData(canvasOrig, resizeForPreview(img.original, displayWidth, displayHeight,
+    resizeMode, img.cropOffsetX, img.cropOffsetY, drag.srcCanvas))
+}
+
+document.addEventListener('mouseup', () => {
+  const drag = cropDragStart
+  cropDragStart = null
+  if (!drag?.moved) return
+  const img = images.find(i => i.id === drag.imgId)
+  if (!img) return
+  img.dithered = null
+  if (img.id === activeId) scheduleProcess()
+})
 
 // ── UI wiring ─────────────────────────────────────────────────────────────
 
