@@ -23,6 +23,43 @@ export const spectra6Group: PaletteGroup = {
       ],
     },
     {
+      // CHNSpec CR30, 22 °C ambient, 7.3" panel (same panel as 'spectra6-guysie', which
+      // was measured at 26 °C). Measured directly as sRGB under D65/2°
+      // (colour.XYZ_to_sRGB on D65-integrated XYZ from raw reflectance spectra, via
+      // epaper-colorcal) — not Lab-sourced, so no measuredLab here. Average of 40 reads
+      // per color across 8 independent sessions (5 each; 2 of 10 sessions excluded),
+      // each within ΔE 0.72 of the pool (raw data: epaper-colorcal's
+      // reference/spectra_7_3_6color_cr30_22c_*.json, field srgb_d65).
+      id: 'spectra6-guysie-22c',
+      name: 'guysie (22 °C)',
+      colors: [
+        { name: 'black',  measured: [38, 30, 40],    ideal: [0, 0, 0] },
+        { name: 'white',  measured: [145, 155, 152], ideal: [255, 255, 255] },
+        { name: 'green',  measured: [47, 84, 70],    ideal: [0, 255, 0] },
+        { name: 'blue',   measured: [4, 69, 123],    ideal: [0, 0, 255] },
+        { name: 'red',    measured: [110, 28, 24],   ideal: [255, 0, 0] },
+        { name: 'yellow', measured: [157, 148, 25],  ideal: [255, 255, 0] },
+      ],
+    },
+    {
+      // CHNSpec CR30, 22 °C ambient, 7.09" 1200x1600 panel. Measured directly as sRGB
+      // under D65/2° (colour.XYZ_to_sRGB on D65-integrated XYZ from raw reflectance
+      // spectra, via epaper-colorcal) — not Lab-sourced, so no measuredLab here. Average
+      // of 40 reads per color across 8 independent sessions (5 each; 2 of 10 sessions
+      // excluded), each within ΔE 0.37 of the pool (raw data: epaper-colorcal's
+      // reference/spectra_7_09_6color_cr30_*.json, field srgb_d65).
+      id: 'spectra6-guysie-7in09',
+      name: 'guysie (7.09")',
+      colors: [
+        { name: 'black',  measured: [35, 26, 41],    ideal: [0, 0, 0] },
+        { name: 'white',  measured: [133, 147, 157], ideal: [255, 255, 255] },
+        { name: 'green',  measured: [53, 92, 74],    ideal: [0, 255, 0] },
+        { name: 'blue',   measured: [17, 70, 126],   ideal: [0, 0, 255] },
+        { name: 'red',    measured: [122, 24, 18],   ideal: [255, 0, 0] },
+        { name: 'yellow', measured: [156, 145, 14],  ideal: [255, 255, 0] },
+      ],
+    },
+    {
       // GDEP133C02 datasheet rev 1.0 §8.1 typical L*a*b* (Eye-One Pro3 Plus, 25 °C).
       // measuredLab is the source of truth; measured sRGB is derived by the registry
       // (values shown here are that derivation, kept for reference).
