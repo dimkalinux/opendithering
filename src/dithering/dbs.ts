@@ -19,8 +19,9 @@ export interface DbsParams {
   viewingDistanceCm: number
   ppi: number
   maxPasses: number
-  /** Called after each pass with the number of accepted changes and the current E. */
-  onPass?: (pass: number, accepted: number, E: number) => void
+  /** Called after each pass with the number of accepted changes, the current E and the
+   *  current palette indices (the live buffer: copy it to keep it). */
+  onPass?: (pass: number, accepted: number, E: number, idx: Uint8Array) => void
 }
 
 export interface DbsStats {
@@ -240,7 +241,7 @@ export function dbsRefine(
       }
     }
     acceptedPerPass.push(accepted)
-    params.onPass?.(pass + 1, accepted, E)
+    params.onPass?.(pass + 1, accepted, E, idx)
     if (accepted === 0) break
   }
 

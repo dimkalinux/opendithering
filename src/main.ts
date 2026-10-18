@@ -1379,6 +1379,7 @@ function cancelRefine() {
   if (!dbsWorker) return
   dbsWorker.terminate() // the search is synchronous inside the worker, so terminate is the only cancel
   dbsWorker = null
+  refreshDitheredView() // drop the live per-pass preview
   updateRefineButton()
 }
 
@@ -1437,6 +1438,11 @@ function startRefine(maxPasses: number): Promise<RefineOutcome> {
     if (msg.type === 'pass') {
       btnRefineDbs.textContent = `Refining… pass ${msg.pass}/${maxPasses} (cancel)`
       if (refineProgress) { refineProgress.pass = msg.pass; updateRefineOverlay() }
+      // Live preview of the result so far; img.dithered stays the pre-refine result until done
+      if (img.id === activeId) {
+        const partial = measuredFromIndices(msg.idx as Uint8Array, target.width, target.height, palette)
+        showDithered(showIdealPreview ? swapToIdeal(partial, palette) : partial)
+      }
       return
     }
     worker.terminate()

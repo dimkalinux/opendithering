@@ -540,8 +540,9 @@ select:focus, input:focus { outline: 2px solid var(--accent); outline-offset: 1p
 .processing-overlay:not([hidden]) {
   display: flex;
 }
-/* DBS refine progress: dims the preview but lets clicks through, so zoom/pan still work */
-.refine-overlay { background: rgba(0,0,0,0.35); pointer-events: none; }
+/* DBS refine progress: no dimming, since the preview updates after every pass; lets clicks
+   through, so zoom/pan still work */
+.refine-overlay { background: none; pointer-events: none; }
 .refine-overlay-box {
   display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
   padding: 0.75rem 1rem; border-radius: var(--radius);
