@@ -2,6 +2,7 @@ import type { DisplayPreset } from '../types'
 
 export const DISPLAY_PRESETS: DisplayPreset[] = [
   { id: 'seeed-reterminal-e1001',     name: 'reTerminal E1001',         manufacturer: 'Seeed Studio',  width: 800,  height: 480,  paletteGroupId: 'bw', diagonalInches: 7.5 },
+  { id: 'seeed-reterminal-e1001-2bpp', name: 'reTerminal E1001 (2bpp)', manufacturer: 'Seeed Studio',  width: 800,  height: 480,  paletteGroupId: 'grayscale4', diagonalInches: 7.5 },
   { id: 'seeed-reterminal-e1002',     name: 'reTerminal E1002',         manufacturer: 'Seeed Studio',  width: 800,  height: 480,  paletteGroupId: 'spectra6', diagonalInches: 7.3 },
   { id: 'seeed-reterminal-e1003',     name: 'reTerminal E1003',         manufacturer: 'Seeed Studio',  width: 1872, height: 1404, paletteGroupId: 'grayscale16', diagonalInches: 10.3 },
   { id: 'seeed-reterminal-e1004',     name: 'reTerminal E1004',         manufacturer: 'Seeed Studio',  width: 1200, height: 1600, paletteGroupId: 'spectra6', diagonalInches: 13.3 },

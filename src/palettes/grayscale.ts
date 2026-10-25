@@ -26,6 +26,39 @@ export const grayscale4Group: PaletteGroup = {
         grayEntry(3, 3, 'white'),
       ],
     },
+    {
+      // Seeed reTerminal E1001 in 4-grey mode with the panel's own burned-in
+      // (OTP) waveform, matched by eye on the glass as the LUT variant below
+      // was: dark grey looked like a black/white ordered dither of 10% white,
+      // light grey like one of 53% (2026-10-25). Closer to evenly spaced than
+      // the uploaded LUTs, with less of a gap above black.
+      id: 'grayscale4-e1001-otp-eye',
+      name: 'reTerminal E1001, OTP waveform (by eye)',
+      colors: [
+        { name: 'black',      measured: [ 26,  26,  26], ideal: [  0,   0,   0] },
+        { name: 'dark gray',  measured: [ 78,  78,  78], ideal: [ 85,  85,  85] },
+        { name: 'light gray', measured: [161, 161, 161], ideal: [170, 170, 170] },
+        { name: 'white',      measured: [213, 213, 213], ideal: [255, 255, 255] },
+      ],
+    },
+    {
+      // Seeed reTerminal E1001 in 4-grey mode (Seeed's register LUTs), matched by
+      // eye on the glass: dark grey looked like a black/white ordered dither of
+      // 15% white, light grey like one of 60%. Black and white are the BW
+      // palette's estimates, white made neutral at the same luminance; the
+      // greys are those shares of white mixed with black in linear light.
+      // Neutral on purpose: a tint bends the four colours off one line, the
+      // hull gains volume, gamut mapping turns on and pushes every neutral
+      // target onto a sliver's surface (flat patches under DBS, 2026-10-25).
+      id: 'grayscale4-e1001-eye',
+      name: 'reTerminal E1001, LUT waveform (by eye)',
+      colors: [
+        { name: 'black',      measured: [ 26,  26,  26], ideal: [  0,   0,   0] },
+        { name: 'dark gray',  measured: [ 93,  93,  93], ideal: [ 85,  85,  85] },
+        { name: 'light gray', measured: [170, 170, 170], ideal: [170, 170, 170] },
+        { name: 'white',      measured: [213, 213, 213], ideal: [255, 255, 255] },
+      ],
+    },
   ],
 }
 
